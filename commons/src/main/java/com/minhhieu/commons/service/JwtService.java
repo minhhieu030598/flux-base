@@ -1,10 +1,11 @@
-package com.minhhieu.commons.security;
+package com.minhhieu.commons.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.minhhieu.commons.security.AuthAccount;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,14 +26,12 @@ import java.util.UUID;
 
 
 @Log4j2
-@Component
 public class JwtService {
     private final JWTVerifier verifier;
     private final JWTCreator.Builder jwtCreator;
     private final Algorithm algorithm;
 
-    public JwtService(@Value("${authentication.jwt.public-key}") String jwtPublicKey,
-                      @Value("${authentication.jwt.private-key}") String jwtPrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public JwtService(String jwtPublicKey, String jwtPrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         algorithm = Algorithm.RSA256(loadPublicKey(jwtPublicKey), loadPrivateKey(jwtPrivateKey));
         verifier = JWT.require(algorithm).build();
         jwtCreator = JWT.create();

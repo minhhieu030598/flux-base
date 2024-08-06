@@ -30,6 +30,7 @@
         <projectreactor.version>3.6.4</projectreactor.version>
         <hazelcast.version>5.3.6</hazelcast.version>
         <java-jwt.version>3.18.2</java-jwt.version>
+        <dsl-json-ext.version>1.0.2</dsl-json-ext.version>
     </properties>
 
 
@@ -54,7 +55,11 @@
                 <artifactId>commons</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.github.longdt</groupId>
+                <artifactId>dsl-json-ext</artifactId>
+                <version>${dsl-json-ext.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
