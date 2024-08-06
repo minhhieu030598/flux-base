@@ -4,6 +4,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.minhhieu.commons.service.JwtService;
 import com.minhhieu.commons.util.Constant;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -36,11 +37,12 @@ public class AuthenticationFilter implements WebFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             if (authentication.getDetails() instanceof DecodedJWT decodedJWT) {
                 ServerHttpRequest request = exchange.getRequest().mutate()
-                        .header(Constant.X_AUTH_USER, decodedJWT.getPayload())
+                        .header(Constant.X_AUTH_USER, decodedJWT.getSubject())
                         .build();
                 return chain.filter(exchange.mutate().request(request).build());
             }
         }
-        return chain.filter(exchange);
+        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        return exchange.getResponse().setComplete();
     }
 }
